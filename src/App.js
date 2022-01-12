@@ -34,6 +34,7 @@ function App() {
       characters.map((item) => (
       <li key={item.id} className={styles.item}>
         <h3>{item.name}</h3>
+        <img src={item.image} alt={item.name}/>
         <p>{item.status}</p>
         <p>{item.species}</p>
         <p>{item.type}</p>

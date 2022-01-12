@@ -8,19 +8,36 @@ const initialState = {
 function App() {
   const [characters, setCharacters] = useState(initialState.items);
   const [isLoading, setLoading] = useState(true);
-  const [url, setUrl] = useState("https://rickandmortyapi.com/api/character")
+  const [url, setUrl] = useState("https://rickandmortyapi.com/api/character");
+  const [pages, setPages] = useState(null)
 
-  useEffect(async function getCharacters() {
+  async function getCharacters() {
     try {
       let res = await fetch(url)
       res = await res.json()
       console.log(res)
       setCharacters(res.results)
       setLoading(false)
+      setPages(res.info.pages)
+      console.log(pages)
     } catch { 
       console.log('Error')
     } 
-  }, [])
+  }
+
+  const getNextPage = () => {
+    setUrl(characters.next)
+    setLoading(true)
+    getCharacters()
+  }
+
+  const getPrevPage = () => {
+    setUrl(characters.prev)
+    setLoading(true)
+    getCharacters()
+  }
+
+  useEffect(getCharacters, [])
 
   
 
@@ -42,7 +59,9 @@ function App() {
       ))
     }
       </ul>
-      <button>Next Page</button>
+      <div>Pages: {pages}</div>
+      <button onClick={getPrevPage}>Prev Page</button>
+      <button onClick={getNextPage}>Next Page</button>
       </div>
       }
     </div>

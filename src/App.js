@@ -1,4 +1,5 @@
 import React, { useState, useReducer, useEffect } from "react";
+import styles from './App.module.css'
 
 const initialState = {
   items: [],
@@ -7,10 +8,11 @@ const initialState = {
 function App() {
   const [characters, setCharacters] = useState(initialState.items);
   const [isLoading, setLoading] = useState(true);
+  const [url, setUrl] = useState("https://rickandmortyapi.com/api/character")
 
   useEffect(async function getCharacters() {
     try {
-      let res = await fetch("https://rickandmortyapi.com/api/character")
+      let res = await fetch(url)
       res = await res.json()
       console.log(res)
       setCharacters(res.results)
@@ -26,10 +28,11 @@ function App() {
     <div>
       <h1>Rick and Morty</h1>
       {isLoading ? 'Загрузка данных...' :
-      <ul>
+      <div>
+        <ul className={styles.list}>
         {
       characters.map((item) => (
-      <li key={item.id}>
+      <li key={item.id} className={styles.item}>
         <h3>{item.name}</h3>
         <p>{item.status}</p>
         <p>{item.species}</p>
@@ -38,6 +41,8 @@ function App() {
       ))
     }
       </ul>
+      <button>Next Page</button>
+      </div>
       }
     </div>
   );

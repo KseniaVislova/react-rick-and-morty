@@ -13,8 +13,17 @@ function App() {
   const [pages, setPages] = useState(null)
   const [count, setCount] = useState(null)
   const [current, setCurrent] = useState('1')
+  const [buttons, setButtons] = useState([1,2,3,4,5])
 
   console.log(result)
+
+  const getButtons = () => {
+    if (current == 1 || current == 2) {
+      setButtons([1,2,3,4,5])
+    } else {
+      setButtons([current - 2, current - 1, current, current + 1, current + 2])
+    }
+  }
 
   async function getCharacters() {
     setLoading(true)
@@ -27,7 +36,6 @@ function App() {
       setResult(res)
       setPages(res.info.pages)
       setCount(res.info.count)
-      console.log(res.info.next.slice(res.info.next.length - 1))
       setCurrent(res.info.next.slice(res.info.next.length - 1) - 1)
     } catch { 
       console.log('Error')
@@ -38,11 +46,13 @@ function App() {
     console.log(result)
     setUrl(result.info.next)
     getCharacters()
+    getButtons()
   }
 
   const getPrevPage = () => {
     setUrl(result.info.prev)
     getCharacters()
+    getButtons()
   }
 
   useEffect(getCharacters, [])
@@ -58,6 +68,11 @@ function App() {
         <div>Pages: {pages}</div>
         <div>Current page: {current}</div>
         <button onClick={getPrevPage}>Prev Page</button>
+        <ul>
+          {buttons.map((item) => (
+            <li key={item}><button>{item}</button></li>
+          ))}
+        </ul>
         <button onClick={getNextPage}>Next Page</button>
         <ul className={styles.list}>
           {characters.map((item) => (

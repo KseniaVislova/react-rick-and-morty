@@ -37,22 +37,28 @@ function App() {
       setPages(res.info.pages)
       setCount(res.info.count)
       setCurrent(res.info.next.slice(res.info.next.length - 1) - 1)
+      getButtons()
     } catch { 
       console.log('Error')
     } 
+  }
+
+  const goToPage = (number) => {
+    console.log(number)
+    setUrl("https://rickandmortyapi.com/api/character" + "?page=" + number)
+    getCharacters()
   }
 
   const getNextPage = () => {
     console.log(result)
     setUrl(result.info.next)
     getCharacters()
-    getButtons()
+
   }
 
   const getPrevPage = () => {
     setUrl(result.info.prev)
     getCharacters()
-    getButtons()
   }
 
   useEffect(getCharacters, [])
@@ -70,7 +76,7 @@ function App() {
         <button onClick={getPrevPage}>Prev Page</button>
         <ul>
           {buttons.map((item) => (
-            <li key={item}><button>{item}</button></li>
+            <li key={item}><button onClick={() => goToPage(item)}>{item}</button></li>
           ))}
         </ul>
         <button onClick={getNextPage}>Next Page</button>

@@ -65,6 +65,10 @@ function App() {
     getCharacters()
   }, [url])
 
+  useEffect(() => {
+    getButtons()
+  }, [current])
+
   return (
     <div>
       <h1>Rick and Morty</h1>

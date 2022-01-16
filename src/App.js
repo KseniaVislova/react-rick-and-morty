@@ -1,3 +1,4 @@
+import { render } from "@testing-library/react";
 import React, { useState, useReducer, useEffect } from "react";
 import styles from './App.module.css'
 
@@ -12,25 +13,14 @@ function App() {
   const [url, setUrl] = useState("https://rickandmortyapi.com/api/character");
   const [pages, setPages] = useState(null)
   const [count, setCount] = useState(null)
-  const [current, setCurrent] = useState('1')
+  const [current, setCurrent] = useState(1)
   const [buttons, setButtons] = useState([1,2,3,4,5])
 
-  console.log(result)
-
-  const getButtons = () => {
-    if (current == 1 || current == 2) {
-      setButtons([1,2,3,4,5])
-    } else {
-      setButtons([current - 2, current - 1, current, current + 1, current + 2])
-    }
-  }
-
-  async function getCharacters() {
+  const getCharacters = async() => {
     setLoading(true)
     try {
       let res = await fetch(url)
       res = await res.json()
-      console.log(res)
       setCharacters(res.results)
       setLoading(false)
       setResult(res)
@@ -43,33 +33,44 @@ function App() {
     } 
   }
 
+  const getButtons = () => {
+    if (current === 1 || current === 2) {
+      setButtons([1,2,3,4,5])
+    } else {
+      setButtons([current - 2, current - 1, current, current + 1, current + 2])
+    }
+  }
+
   const goToPage = (number) => {
-    console.log(number)
+    console.log("Начало выполнения функции")
     setUrl("https://rickandmortyapi.com/api/character" + "?page=" + number)
-    getCharacters()
+    console.log(url)
+    console.log("Переход на страницу")
   }
 
   const getNextPage = () => {
     console.log(result)
     setUrl(result.info.next)
-    getCharacters()
-
+    console.log("Кнопка")
   }
 
   const getPrevPage = () => {
     setUrl(result.info.prev)
-    getCharacters()
+    console.log("Кнопка")
   }
 
-  useEffect(getCharacters, [])
-
-  
+  useEffect(() => {
+    console.log("Сработал useEffect2")
+    console.log(url)
+    getCharacters()
+  }, [url])
 
   return (
     <div>
       <h1>Rick and Morty</h1>
       {isLoading ? 'Загрузка данных...' :
       <div>
+        <div>Current URL: {url}</div>
         <div>All Characters: {count}</div>
         <div>Pages: {pages}</div>
         <div>Current page: {current}</div>

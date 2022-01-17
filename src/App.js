@@ -16,6 +16,10 @@ function App() {
   const [current, setCurrent] = useState(1)
   const [buttons, setButtons] = useState([1,2,3,4,5])
 
+  const cheakPage = (number) => {
+    if (number <= pages && number > 0) return true;
+  }
+
   const getCharacters = async() => {
     setLoading(true)
     try {
@@ -36,16 +40,22 @@ function App() {
   }
 
   const getButtons = () => {
+    let array = [current - 2, current - 1, current, current + 1, current + 2];
+    let result = [];
     if (current === 1 || current === 2) {
-      setButtons([1,2,3,4,5])
+      setButtons([1,2,3,4,5,6])
     } else {
-      setButtons([current - 2, current - 1, current, current + 1, current + 2])
+      array.forEach(item => {
+        if(cheakPage(item)) result.push(item)
+      })
+      setButtons(result)
     }
   }
 
   const goToPage = (number) => {
     console.log("Начало выполнения функции")
     setUrl("https://rickandmortyapi.com/api/character" + "?page=" + number)
+    setCurrent(number)
     console.log(url)
     console.log("Переход на страницу")
   }
@@ -82,9 +92,11 @@ function App() {
         <div>Current page: {current}</div>
         <button onClick={getPrevPage}>Prev Page</button>
         <ul>
+          <li><button onClick={() => goToPage(1)}>Start</button></li>
           {buttons.map((item) => (
             <li key={item}><button onClick={() => goToPage(item)}>{item}</button></li>
           ))}
+          <li><button onClick={() => goToPage(pages)}>End</button></li>
         </ul>
         <button onClick={getNextPage}>Next Page</button>
         <ul className={styles.list}>

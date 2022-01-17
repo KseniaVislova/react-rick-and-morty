@@ -15,6 +15,8 @@ function App() {
   const [count, setCount] = useState(null)
   const [current, setCurrent] = useState(1)
   const [buttons, setButtons] = useState([1,2,3,4,5])
+  const [isPrev, setPrev] = useState(true)
+  const [isNext, setNext] = useState(false)
 
   const cheakPage = (number) => {
     if (number <= pages && number > 0) return true;
@@ -43,12 +45,15 @@ function App() {
     let array = [current - 2, current - 1, current, current + 1, current + 2];
     let result = [];
     if (current === 1 || current === 2) {
-      setButtons([1,2,3,4,5,6])
+      setButtons([1,2,3,4,5])
+      setNext(true)
     } else {
       array.forEach(item => {
         if(cheakPage(item)) result.push(item)
       })
       setButtons(result)
+      setPrev(true)
+      console.log(result[result.length - 1] )
     }
   }
 
@@ -64,11 +69,28 @@ function App() {
     console.log(result)
     setUrl(result.info.next)
     console.log("Кнопка")
+    if (current === pages) {
+      setNext(false)
+    }
   }
 
   const getPrevPage = () => {
     setUrl(result.info.prev)
     console.log("Кнопка")
+    if (current === 1) {
+      setPrev(false)
+    }
+  }
+
+  const checkDisabled = () => {
+    setPrev(true)
+    setNext(true)
+    if (current === pages) {
+      setNext(false)
+    }
+    if (current === 1) {
+      setPrev(false)
+    }
   }
 
   useEffect(() => {
@@ -79,6 +101,7 @@ function App() {
 
   useEffect(() => {
     getButtons()
+    checkDisabled()
   }, [current])
 
   return (
@@ -90,7 +113,7 @@ function App() {
         <div>All Characters: {count}</div>
         <div>Pages: {pages}</div>
         <div>Current page: {current}</div>
-        <button onClick={getPrevPage}>Prev Page</button>
+        {isPrev ? <button onClick={getPrevPage}>Prev Page</button> : <button onClick={getPrevPage} disabled>Prev Page</button> }
         <ul>
           <li><button onClick={() => goToPage(1)}>Start</button></li>
           {buttons.map((item) => (
@@ -98,7 +121,7 @@ function App() {
           ))}
           <li><button onClick={() => goToPage(pages)}>End</button></li>
         </ul>
-        <button onClick={getNextPage}>Next Page</button>
+        {isNext ? <button onClick={getNextPage}>Next Page</button> : <button onClick={getNextPage} disabled>Next Page</button>}
         <ul className={styles.list}>
           {characters.map((item) => (
             <li key={item.id} className={styles.item}>

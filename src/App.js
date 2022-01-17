@@ -68,11 +68,13 @@ function App() {
   const getNextPage = () => {
     console.log(result)
     setUrl(result.info.next)
+    setCurrent(current + 1)
     console.log("Кнопка")
   }
 
   const getPrevPage = () => {
     setUrl(result.info.prev)
+    setCurrent(current - 1)
     console.log("Кнопка")
   }
 

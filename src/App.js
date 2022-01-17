@@ -103,9 +103,7 @@ function App() {
   return (
     <div>
       <h1>Rick and Morty</h1>
-      {isLoading ? 'Загрузка данных...' :
-      <div>
-        <div>Current URL: {url}</div>
+      <div>Current URL: {url}</div>
         <div>All Characters: {count}</div>
         <div>Pages: {pages}</div>
         <div>Current page: {current}</div>
@@ -118,6 +116,8 @@ function App() {
           <li><button onClick={() => goToPage(pages)}>End</button></li>
         </ul>
         {isNext ? <button onClick={getNextPage}>Next Page</button> : <button onClick={getNextPage} disabled>Next Page</button>}
+      {isLoading ? 'Загрузка данных...' :
+      <div>
         <ul className={styles.list}>
           {characters.map((item) => (
             <li key={item.id} className={styles.item}>

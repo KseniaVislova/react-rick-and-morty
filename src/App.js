@@ -69,17 +69,11 @@ function App() {
     console.log(result)
     setUrl(result.info.next)
     console.log("Кнопка")
-    if (current === pages) {
-      setNext(false)
-    }
   }
 
   const getPrevPage = () => {
     setUrl(result.info.prev)
     console.log("Кнопка")
-    if (current === 1) {
-      setPrev(false)
-    }
   }
 
   const checkDisabled = () => {

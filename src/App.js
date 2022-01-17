@@ -26,7 +26,9 @@ function App() {
       setResult(res)
       setPages(res.info.pages)
       setCount(res.info.count)
-      setCurrent(res.info.next.slice(res.info.next.length - 1) - 1)
+      console.log(res.info.next.length)
+      console.log(res.info.next.split('='))
+      setCurrent((res.info.next.split('=')[1] - 1))
       getButtons()
     } catch { 
       console.log('Error')

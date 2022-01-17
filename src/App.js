@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect, useRef, useCallback} from "react";
 import styles from './App.module.css'
 
 const initialState = {
@@ -17,6 +17,7 @@ function App() {
   const [buttons, setButtons] = useState([1,2,3,4,5])
   const [isPrev, setPrev] = useState(true)
   const [isNext, setNext] = useState(false)
+  const [filter, setFilter] = useState([])
 
   const cheakPage = (number) => {
     if (number <= pages && number > 0) return true;
@@ -89,6 +90,31 @@ function App() {
     }
   }
 
+  const getValues = (e) => {
+    console.log(e.target[0])
+    console.log(Object.keys(e.target))
+    const res = []
+    Object.keys(e.target).forEach(
+      item => {
+        console.log(e.target[item].name)
+        if (typeof e.target[item].value === 'string') {
+          if (e.target[item].name.length > 0) {
+            let obj = {}
+            obj.key = e.target[item].name
+            obj.value = e.target[item].value
+            res.push(obj)
+          }
+        }
+      }
+    )
+    console.log(res)
+    setFilter(res)
+    console.log(filter)
+    e.preventDefault();
+  }
+
+
+
   useEffect(() => {
     console.log("Сработал useEffect2")
     console.log(url)
@@ -116,6 +142,28 @@ function App() {
           <li><button onClick={() => goToPage(pages)}>End</button></li>
         </ul>
         {isNext ? <button onClick={getNextPage}>Next Page</button> : <button onClick={getNextPage} disabled>Next Page</button>}
+        <div>
+        <form onSubmit={getValues}>
+          <input type="text" placeholder="name" id="name" name="name" />
+          <select name="status">
+          <option value="all">all</option>
+            <option value="alive">alive</option>
+            <option value="dead">dead</option>
+            <option value="unknown">unknown</option>
+          </select>
+          <input type="text" name="species" placeholder="species"></input>
+          <input type="text" name="type" placeholder="type"></input>
+          <select name="gender">
+            <option value="all">all</option>
+            <option value="female">male</option>
+            <option value="male">male</option>
+            <option value="genderless">genderless</option>
+            <option value="unknown">unknown</option>
+          </select>
+          <button type="submit">Seach</button>
+          <button type="submit">Clear</button>
+        </form>
+        </div>
       {isLoading ? 'Загрузка данных...' :
       <div>
         <ul className={styles.list}>

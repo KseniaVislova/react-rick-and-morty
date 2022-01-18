@@ -74,9 +74,15 @@ p {
 }
 
 @media (max-width: 375px) {
+  .button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
   .wrapper {
     width: calc(100% - 20px);
-    height: calc(100% - 20px);
-    padding: 10px;
+    height: calc(100% - 40px);
+    padding: 20px 10px;
   }
 }

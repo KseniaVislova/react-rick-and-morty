@@ -26,6 +26,7 @@ function App() {
   const getCharacters = async() => {
     setLoading(true)
     try {
+      console.log('Start getCharacters')
       let res = await fetch(url)
       res = await res.json()
       setCharacters(res.results)
@@ -33,10 +34,15 @@ function App() {
       setResult(res)
       setPages(res.info.pages)
       setCount(res.info.count)
-      console.log(res.info.next.length)
-      console.log(res.info.next.split('='))
-      setCurrent((res.info.next.split('=')[1] - 1))
-      getButtons()
+      if (typeof (res.info.next.split('=')[1]) === 'number') {
+        console.log(res.info.next.split('=')[1] - 1)
+        setCurrent(res.info.next.split('=')[1] - 1)
+      }  else {
+        console.log(res.info.next)
+        console.log(res.info.next.split('=')[1].split('&')[0] - 1)
+        setCurrent(res.info.next.split('=')[1].split('&')[0] - 1)
+      }
+      console.log('End getCharacters')
     } catch { 
       console.log('Error')
     } 
@@ -45,10 +51,27 @@ function App() {
   const getButtons = () => {
     let array = [current - 2, current - 1, current, current + 1, current + 2];
     let result = [];
-    if (current === 1 || current === 2) {
+    console.log(pages)
+    if (pages === 1) {
+      setButtons([1])
+    }
+    if ((current === 1 || current === 2) && pages > 1) {
+      setButtons([1,2])
+      setNext(true)
+    }
+    if ((current === 1 || current === 2) && pages > 2) {
+      setButtons([1,2,3])
+      setNext(true)
+    }
+    if ((current === 1 || current === 2) && pages > 3) {
+      setButtons([1,2,3,4])
+      setNext(true)
+    }
+    if ((current === 1 || current === 2) && pages > 4) {
       setButtons([1,2,3,4,5])
       setNext(true)
     } else {
+      console.log("Начало выполнения else в getButtons")
       array.forEach(item => {
         if(cheakPage(item)) result.push(item)
       })
@@ -60,7 +83,27 @@ function App() {
 
   const goToPage = (number) => {
     console.log("Начало выполнения функции")
-    setUrl("https://rickandmortyapi.com/api/character" + "?page=" + number)
+    if(filter.length > 0) {
+      console.log(number)
+      console.log(url.includes('page'))
+      if (url.includes('page')) {
+        let res = url.split('?page=')[1].split('&')
+        console.log(res)
+        let newUrl = "https://rickandmortyapi.com/api/character/" + "?page=" + number;
+        for (let i = 1; i < res.length; i++) {
+          newUrl = newUrl + "&" + res[i]
+        }
+        console.log(newUrl)
+        setUrl(newUrl)
+      } else {
+        let res = url.split('?')
+        console.log(res)
+        setUrl(res[0] + "?page=" + number + '&' + res[1])
+      }
+    } else {
+      setUrl("https://rickandmortyapi.com/api/character" + "?page=" + number)
+    }
+    console.log("Сейчас будет setCurrent")
     setCurrent(number)
     console.log(url)
     console.log("Переход на страницу")
@@ -143,6 +186,10 @@ function App() {
 
   useEffect(() => {
     getButtons()
+  }, [pages])
+
+  useEffect(() => {
+    getButtons()
     checkDisabled()
   }, [current])
 
@@ -181,7 +228,7 @@ function App() {
             <option value="all">all</option>
             <option value="female">male</option>
             <option value="male">male</option>
-            <option value="genderless">genderless</option>
+            <option value="genderless">genderless</option>  
             <option value="unknown">unknown</option>
           </select>
           <button type="submit">Seach</button>

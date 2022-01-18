@@ -4,6 +4,7 @@ import Popup from "./components/Popup/Popup";
 import Filter from "./components/Filter/Filter";
 import ItemList from "./components/ItemList/ItemList";
 import ButtonsList from "./components/ButtonsList/ButtonsList";
+import Button from "./components/Button/Button";
 import styles from './App.module.css'
 
 const initialState = {
@@ -196,16 +197,15 @@ function App() {
   return (
     <div>
       <h1>Rick and Morty</h1>
-      <div>Current URL: {url}</div>
-        <div>All Characters: {count}</div>
-        <div>Pages: {pages}</div>
-        <div>Current page: {current}</div>
-        {isPrev ? <button onClick={getPrevPage}>Prev Page</button> : <button onClick={getPrevPage} disabled>Prev Page</button> }
-        <ButtonsList goToPage={goToPage} buttons={buttons} pages={pages} />
-        {isNext ? <button onClick={getNextPage}>Next Page</button> : <button onClick={getNextPage} disabled>Next Page</button>}
-        <div>
-        <Filter getValues={getValues} handleClear={handleClear} />
-        </div>
+      <div>All Characters: {count}</div>
+      <div>Pages: {pages}</div>
+      <div>Current page: {current}</div>
+      {isPrev ? <Button onClick={getPrevPage} value="Prev page" disabled={false}/> : <Button onClick={getPrevPage} value="Prev page" disabled={true}/> }
+      <ButtonsList goToPage={goToPage} buttons={buttons} pages={pages} />
+      {isNext ? <Button onClick={getNextPage} value="Next page" disabled={false}/> : <Button onClick={getNextPage} value="Next page" disabled={true}/>}
+      <div>
+      <Filter getValues={getValues} handleClear={handleClear} />
+      </div>
       {isLoading ? 'Loading...' :
       <div>
         {isModal ? <Popup character={character} closeModal={closeModal} /> : ''}

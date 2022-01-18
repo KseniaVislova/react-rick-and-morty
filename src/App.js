@@ -18,7 +18,7 @@ function App() {
   const [isPrev, setPrev] = useState(true)
   const [isNext, setNext] = useState(false)
   const [filter, setFilter] = useState({name: '', status: 'all', species: '', type: '', gender: 'all'})
-  const [isFilter, setIsFilter] = useState(false)
+  const [isModal, setModal] = useState(false)
 
   const cheakPage = (number) => {
     if (number <= pages && number > 0) return true;
@@ -27,7 +27,6 @@ function App() {
   const getCharacters = async() => {
     setLoading(true)
     try {
-      console.log('Start getCharacters')
       let res = await fetch(url)
       res = await res.json()
       setCharacters(res.results)
@@ -36,14 +35,10 @@ function App() {
       setPages(res.info.pages)
       setCount(res.info.count)
       if (typeof (res.info.next.split('=')[1]) === 'number') {
-        console.log(res.info.next.split('=')[1] - 1)
         setCurrent(res.info.next.split('=')[1] - 1)
       }  else {
-        console.log(res.info.next)
-        console.log(res.info.next.split('=')[1].split('&')[0] - 1)
         setCurrent(res.info.next.split('=')[1].split('&')[0] - 1)
       }
-      console.log('End getCharacters')
     } catch { 
       console.log('Error')
     } 
@@ -52,7 +47,6 @@ function App() {
   const getButtons = () => {
     let array = [current - 2, current - 1, current, current + 1, current + 2];
     let result = [];
-    console.log(pages)
     if (pages === 1) {
       setButtons([1])
     }
@@ -72,56 +66,42 @@ function App() {
       setButtons([1,2,3,4,5])
       setNext(true)
     } else {
-      console.log("Начало выполнения else в getButtons")
       array.forEach(item => {
         if(cheakPage(item)) result.push(item)
       })
       setButtons(result)
       setPrev(true)
-      console.log(result[result.length - 1] )
     }
   }
 
   const goToPage = (number) => {
-    console.log("Начало выполнения функции")
     if (filter.name === '' && filter.status === 'all'&& filter.species === ''&& filter.type === ''&& filter.gender === 'all') {
       setUrl("https://rickandmortyapi.com/api/character" + "?page=" + number)
     } else {
-      console.log(number)
-      console.log(url.includes('page'))
       if (url.includes('page')) {
         let res = url.split('?page=')[1].split('&')
-        console.log(res)
         let newUrl = "https://rickandmortyapi.com/api/character/" + "?page=" + number;
         for (let i = 1; i < res.length; i++) {
           newUrl = newUrl + "&" + res[i]
         }
-        console.log(newUrl)
         setUrl(newUrl)
       } else {
         let res = url.split('?')
-        console.log(res)
         setUrl(res[0] + "?page=" + number + '&' + res[1])
       }
     }
 
-    console.log("Сейчас будет setCurrent")
     setCurrent(number)
-    console.log(url)
-    console.log("Переход на страницу")
   }
 
   const getNextPage = () => {
-    console.log(result)
     setUrl(result.info.next)
     setCurrent(current + 1)
-    console.log("Кнопка")
   }
 
   const getPrevPage = () => {
     setUrl(result.info.prev)
     setCurrent(current - 1)
-    console.log("Кнопка")
   }
 
   const checkDisabled = () => {
@@ -136,11 +116,9 @@ function App() {
   }
 
   const getUrlFilter = () => {
-    console.log(filter)
     let newUrl = "https://rickandmortyapi.com/api/character/?"
     let i = 0;
     for (let key in filter) {
-      console.log(filter[key])
       if (filter[key] !== '' && filter[key] !== 'all') {
         if (i === 0) {
           newUrl = newUrl + key + "=" + filter[key]
@@ -150,30 +128,26 @@ function App() {
       }
       i += 1;
     }
-    console.log(newUrl)
     setUrl(newUrl)
   }
 
   const getValues = async(e) => {
-    console.log(e.target[0])
-    console.log(Object.keys(e.target))
-
     const res = {name: e.target[0].value, status: e.target[1].value, species: e.target[2].value, type: e.target[3].value, gender: e.target[4].value}
-    console.log(res)
     setFilter(res)
-    console.log(filter)
     e.preventDefault()
   }
 
   const handleClear = (e) => {
     setUrl("https://rickandmortyapi.com/api/character")
     setFilter({name: '', status: 'all', species: '', type: '', gender: 'all'})
-    setIsFilter(false)
-    console.log(e.target)
+  }
+
+  const openModal = () => {
+    console.log('modal')
+    setModal(true)
   }
 
   useEffect(() => {
-    console.log("Сработал useEffect2")
     getCharacters()
   }, [url])
 
@@ -232,7 +206,7 @@ function App() {
       <div>
         <ul className={styles.list}>
           {characters === undefined ? 'Try again' : characters.map((item) => (
-            <li key={item.id} className={styles.item}>
+            <li key={item.id} className={styles.item} onClick={openModal}>
               <h3>Name: {item.name}</h3>
               <img src={item.image} alt={item.name}/>
               <p>Status: {item.status}</p>

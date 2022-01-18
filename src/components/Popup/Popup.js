@@ -13,7 +13,6 @@ const Popup = ({character, closeModal}) => {
     try {
       let res = await fetch(firstEpisode)
       res = await res.json()
-      console.log(res)
       setFirstName(res.name);
       setFirstDate(res.air_date)
     } catch { 
@@ -25,7 +24,6 @@ const Popup = ({character, closeModal}) => {
     try {
       let res = await fetch(lastEpisode)
       res = await res.json()
-      console.log(res)
       setLastName(res.name);
       setLastDate(res.air_date)
     } catch { 

@@ -59,6 +59,10 @@ p {
     flex-direction: column;
   }
 
+  .img {
+    width: 100%;
+  }
+
   .button {
     background-color: #fea82f;
   }
@@ -66,5 +70,13 @@ p {
   .button:hover {
     background-color: #000;
     color: #fea82f;
+  }
+}
+
+@media (max-width: 375px) {
+  .wrapper {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    padding: 10px;
   }
 }

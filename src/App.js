@@ -156,8 +156,6 @@ function App() {
   }
 
   const openModal = (e) => {
-    console.log(e.target)
-    console.log(e.target.value)
     setUrlForModal(e.target.value)
     setModal(true)
   }
@@ -167,7 +165,6 @@ function App() {
       let res = await fetch(urlForModal)
       res = await res.json()
       setCharacter(res)
-      console.log(res)
     } catch { 
       console.log('Error')
     } 

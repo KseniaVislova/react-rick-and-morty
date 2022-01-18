@@ -195,14 +195,12 @@ function App() {
   }, [urlForModal])
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Rick and Morty</h1>
-      <div>All Characters: {count}</div>
-      <div>Pages: {pages}</div>
-      <div>Current page: {current}</div>
+      <div><span>All characters:</span> {count}</div>
       <div className={styles.buttons}>
         {isPrev ? <Button onClick={getPrevPage} value="Prev page" disabled={false}/> : <Button onClick={getPrevPage} value="Prev page" disabled={true}/> }
-        <ButtonsList goToPage={goToPage} buttons={buttons} pages={pages} />
+        <ButtonsList goToPage={goToPage} buttons={buttons} pages={pages} current={current}/>
         {isNext ? <Button onClick={getNextPage} value="Next page" disabled={false}/> : <Button onClick={getNextPage} value="Next page" disabled={true}/>}
       </div>
       <Filter getValues={getValues} handleClear={handleClear} />

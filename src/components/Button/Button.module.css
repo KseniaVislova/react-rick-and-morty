@@ -6,8 +6,15 @@
   background-color: transparent;
   border: 1px solid #01020a;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .button:hover {
   background-color: #fea82f;
+  transition: 0.3s;
+}
+
+.active {
+  background-color: #fea82f;
+  transition: 0.3s;
 }

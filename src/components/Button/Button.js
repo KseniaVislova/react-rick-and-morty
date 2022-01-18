@@ -1,8 +1,9 @@
 import styles from './Button.module.css'
+import classnames from "classnames";
 
-const Button = ({onClick, value, disabled}) => {
+const Button = ({onClick, value, disabled, current}) => {
   return (
-    <button className={styles.button} onClick={onClick} disabled={disabled}>{value}</button> 
+    <button onClick={onClick} disabled={disabled} className={classnames([styles.button], {[styles.active]: current === value})}>{value}</button> 
   )
 }
 

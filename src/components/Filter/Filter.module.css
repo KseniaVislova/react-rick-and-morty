@@ -1,0 +1,39 @@
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.form div {
+  display: flex;
+  gap: 5px;
+}
+
+input, select {
+  padding: 5px 10px;
+  text-transform: uppercase;
+  border: 1px solid #01020a;
+}
+
+.button {
+  padding: 5px 10px;
+  font-family: inherit;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: 1px solid #01020a;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #fea82f;
+}
+
+.open {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.open button {
+  margin-left: 15px;
+}

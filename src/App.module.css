@@ -1,0 +1,36 @@
+.container {
+  max-width: 1440px;
+  padding: 20px;
+}
+
+h1 {
+  padding-bottom: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  border-bottom: 2px solid #fea82f;
+}
+
+span {
+  font-weight: 700;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .buttons {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+}
+
+@media (max-width: 375px) {
+  .buttons {
+    gap: 5px;
+  }
+}

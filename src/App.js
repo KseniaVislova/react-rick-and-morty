@@ -3,6 +3,7 @@ import React, { useState, useReducer, useEffect, useRef, useCallback} from "reac
 import Popup from "./components/Popup/Popup";
 import Filter from "./components/Filter/Filter";
 import ItemList from "./components/ItemList/ItemList";
+import ButtonsList from "./components/ButtonsList/ButtonsList";
 import styles from './App.module.css'
 
 const initialState = {
@@ -200,13 +201,7 @@ function App() {
         <div>Pages: {pages}</div>
         <div>Current page: {current}</div>
         {isPrev ? <button onClick={getPrevPage}>Prev Page</button> : <button onClick={getPrevPage} disabled>Prev Page</button> }
-        <ul>
-          <li><button onClick={() => goToPage(1)}>Start</button></li>
-          {buttons.map((item) => (
-            <li key={item}><button onClick={() => goToPage(item)}>{item}</button></li>
-          ))}
-          <li><button onClick={() => goToPage(pages)}>End</button></li>
-        </ul>
+        <ButtonsList goToPage={goToPage} buttons={buttons} pages={pages} />
         {isNext ? <button onClick={getNextPage}>Next Page</button> : <button onClick={getNextPage} disabled>Next Page</button>}
         <div>
         <Filter getValues={getValues} handleClear={handleClear} />

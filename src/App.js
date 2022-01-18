@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import React, { useState, useReducer, useEffect, useRef, useCallback} from "react";
+import Popup from "./components/Popup/Popup";
 import styles from './App.module.css'
 
 const initialState = {
@@ -229,16 +230,7 @@ function App() {
         </div>
       {isLoading ? 'Loading...' :
       <div>
-        {isModal ? 
-        <div>
-          <button onClick={closeModal}>x</button>
-          <h3>Name: {character.name}</h3>
-          <img src={character.image} alt={character.name}/>
-          <p>Status: {character.status}</p>
-          <p>Species: {character.species}</p>
-          <p>Type: {character.type}</p>
-          </div> :
-        ''}
+        {isModal ? <Popup character={character} closeModal={closeModal} /> : ''}
         <ul className={styles.list}>
           {characters === undefined ? 'Try again' : characters.map((item) => (
             <li key={item.id} className={styles.item} >

@@ -17,7 +17,8 @@ function App() {
   const [buttons, setButtons] = useState([1,2,3,4,5])
   const [isPrev, setPrev] = useState(true)
   const [isNext, setNext] = useState(false)
-  const [filter, setFilter] = useState([])
+  const [filter, setFilter] = useState({name: '', status: 'all', species: '', type: '', gender: 'all'})
+  const [isFilter, setIsFilter] = useState(false)
 
   const cheakPage = (number) => {
     if (number <= pages && number > 0) return true;
@@ -83,7 +84,9 @@ function App() {
 
   const goToPage = (number) => {
     console.log("Начало выполнения функции")
-    if(filter.length > 0) {
+    if (filter.name === '' && filter.status === 'all'&& filter.species === ''&& filter.type === ''&& filter.gender === 'all') {
+      setUrl("https://rickandmortyapi.com/api/character" + "?page=" + number)
+    } else {
       console.log(number)
       console.log(url.includes('page'))
       if (url.includes('page')) {
@@ -100,9 +103,8 @@ function App() {
         console.log(res)
         setUrl(res[0] + "?page=" + number + '&' + res[1])
       }
-    } else {
-      setUrl("https://rickandmortyapi.com/api/character" + "?page=" + number)
     }
+
     console.log("Сейчас будет setCurrent")
     setCurrent(number)
     console.log(url)
@@ -137,16 +139,17 @@ function App() {
     console.log(filter)
     let newUrl = "https://rickandmortyapi.com/api/character/?"
     let i = 0;
-    filter.forEach(item => {
-      if (item.value !== '' && item.value !== 'all') {
+    for (let key in filter) {
+      console.log(filter[key])
+      if (filter[key] !== '' && filter[key] !== 'all') {
         if (i === 0) {
-          newUrl = newUrl + item.key + "=" + item.value
+          newUrl = newUrl + key + "=" + filter[key]
         } else {
-          newUrl = newUrl + "&" + item.key + "=" + item.value
+          newUrl = newUrl + "&" + key + "=" + filter[key]
         }
       }
       i += 1;
-    })
+    }
     console.log(newUrl)
     setUrl(newUrl)
   }
@@ -154,35 +157,23 @@ function App() {
   const getValues = async(e) => {
     console.log(e.target[0])
     console.log(Object.keys(e.target))
-    const res = []
-    Object.keys(e.target).forEach(
-      item => {
-        console.log(e.target[item].name)
-        if (typeof e.target[item].value === 'string') {
-          if (e.target[item].name.length > 0) {
-            let obj = {}
-            obj.key = e.target[item].name
-            obj.value = e.target[item].value
-            res.push(obj)
-          }
-        }
-      }
-    )
+
+    const res = {name: e.target[0].value, status: e.target[1].value, species: e.target[2].value, type: e.target[3].value, gender: e.target[4].value}
     console.log(res)
     setFilter(res)
     console.log(filter)
-    e.target.reset()
     e.preventDefault()
   }
 
-  const clearFilter = () => {
+  const handleClear = (e) => {
     setUrl("https://rickandmortyapi.com/api/character")
-    setFilter([])
+    setFilter({name: '', status: 'all', species: '', type: '', gender: 'all'})
+    setIsFilter(false)
+    console.log(e.target)
   }
 
   useEffect(() => {
     console.log("Сработал useEffect2")
-    console.log(url)
     getCharacters()
   }, [url])
 
@@ -217,7 +208,7 @@ function App() {
         {isNext ? <button onClick={getNextPage}>Next Page</button> : <button onClick={getNextPage} disabled>Next Page</button>}
         <div>
         <form onSubmit={getValues}>
-          <input type="text" placeholder="name" id="name" name="name"/>
+          <input type="text" placeholder={filter.name} id="name" name="name"/>
           <select name="status">
           <option value="all">all</option>
             <option value="alive">alive</option>
@@ -228,13 +219,13 @@ function App() {
           <input type="text" name="type" placeholder="type"></input>
           <select name="gender">
             <option value="all">all</option>
-            <option value="female">male</option>
+            <option value="female">female</option>
             <option value="male">male</option>
             <option value="genderless">genderless</option>  
             <option value="unknown">unknown</option>
           </select>
           <button type="submit">Seach</button>
-          <button type="button" onClick={clearFilter}>Clear</button>
+          <button type="button" onClick={handleClear}>Clear</button>
         </form>
         </div>
       {isLoading ? 'Loading...' :

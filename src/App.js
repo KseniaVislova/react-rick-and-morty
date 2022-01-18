@@ -200,12 +200,12 @@ function App() {
       <div>All Characters: {count}</div>
       <div>Pages: {pages}</div>
       <div>Current page: {current}</div>
-      {isPrev ? <Button onClick={getPrevPage} value="Prev page" disabled={false}/> : <Button onClick={getPrevPage} value="Prev page" disabled={true}/> }
-      <ButtonsList goToPage={goToPage} buttons={buttons} pages={pages} />
-      {isNext ? <Button onClick={getNextPage} value="Next page" disabled={false}/> : <Button onClick={getNextPage} value="Next page" disabled={true}/>}
-      <div>
-      <Filter getValues={getValues} handleClear={handleClear} />
+      <div className={styles.buttons}>
+        {isPrev ? <Button onClick={getPrevPage} value="Prev page" disabled={false}/> : <Button onClick={getPrevPage} value="Prev page" disabled={true}/> }
+        <ButtonsList goToPage={goToPage} buttons={buttons} pages={pages} />
+        {isNext ? <Button onClick={getNextPage} value="Next page" disabled={false}/> : <Button onClick={getNextPage} value="Next page" disabled={true}/>}
       </div>
+      <Filter getValues={getValues} handleClear={handleClear} />
       {isLoading ? 'Loading...' :
       <div>
         {isModal ? <Popup character={character} closeModal={closeModal} /> : ''}

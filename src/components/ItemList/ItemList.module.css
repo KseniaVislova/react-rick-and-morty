@@ -1,7 +1,7 @@
 .list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   gap: 15px;
   padding-left: 0;
   list-style: none;
@@ -45,4 +45,26 @@ h3 {
 .button:hover {
   background-color: #fea82f;
   transition: 0.3s;
+}
+
+@media (max-width: 1024px) {
+  .item {
+    width: 30%;
+  }
+}
+
+@media (max-width: 768px) {
+  .item {
+    width: 45%;
+  }
+}
+
+@media (max-width: 425px) {
+  .list {
+    flex-direction: column;
+  }
+
+  .item {
+    width: 100%;
+  }
 }

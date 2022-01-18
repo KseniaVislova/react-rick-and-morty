@@ -199,9 +199,9 @@ function App() {
       <h1>Rick and Morty</h1>
       <div><span>All characters:</span> {count}</div>
       <div className={styles.buttons}>
-        {isPrev ? <Button onClick={getPrevPage} value="Prev page" disabled={false}/> : <Button onClick={getPrevPage} value="Prev page" disabled={true}/> }
-        <ButtonsList goToPage={goToPage} buttons={buttons} pages={pages} current={current}/>
-        {isNext ? <Button onClick={getNextPage} value="Next page" disabled={false}/> : <Button onClick={getNextPage} value="Next page" disabled={true}/>}
+        {isPrev ? <Button onClick={getPrevPage} value="Prev page" disabled={false} className={styles.order1}/> : <Button onClick={getPrevPage} value="Prev page" disabled={true} className={styles.order1}/> }
+        <ButtonsList className={styles.order3} goToPage={goToPage} buttons={buttons} pages={pages} current={current}/>
+        {isNext ? <Button onClick={getNextPage} value="Next page" disabled={false} className={styles.order2}/> : <Button onClick={getNextPage} value="Next page" disabled={true} className={styles.order2}/>}
       </div>
       <Filter getValues={getValues} handleClear={handleClear} />
       {isLoading ? 'Loading...' :

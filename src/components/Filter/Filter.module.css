@@ -1,6 +1,12 @@
 .form {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
+}
+
+.form div {
+  display: flex;
+  gap: 5px;
 }
 
 input, select {
@@ -21,4 +27,13 @@ input, select {
 
 .button:hover {
   background-color: #fea82f;
+}
+
+.open {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.open button {
+  margin-left: 15px;
 }

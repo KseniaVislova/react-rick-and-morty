@@ -18,4 +18,19 @@ span {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .buttons {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+}
+
+@media (max-width: 375px) {
+  .buttons {
+    gap: 5px;
+  }
 }

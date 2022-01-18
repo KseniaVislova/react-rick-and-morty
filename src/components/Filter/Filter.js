@@ -1,9 +1,23 @@
+import { useState, useEffect } from 'react';
 import styles from './Filter.module.css'
 
 const Filter = ({getValues, handleClear}) => {
-  
+  const [isOpen, setOpen] = useState(false)
+
+  const openFilter = () => {
+    setOpen(true)
+  }
+
+  const closeFilter = () => {
+    setOpen(false)
+  }
+
+  useEffect(() => {
+  }, [isOpen])
+
   return (
     <div>
+      {isOpen ? 
       <form className={styles.form} onSubmit={getValues}>
         <input type="text" placeholder="name" id="name" name="name"/>
         <select name="status">
@@ -21,9 +35,15 @@ const Filter = ({getValues, handleClear}) => {
           <option value="genderless">genderless</option>  
           <option value="unknown">unknown</option>
         </select>
-        <button className={styles.button} type="submit">Seach</button>
-        <button className={styles.button} type="button" onClick={handleClear}>Clear</button>
-      </form>
+        <div>
+          <button className={styles.button} type="submit">Seach</button>
+          <button className={styles.button} type="button" onClick={handleClear}>Clear</button>
+          <button className={styles.button} onClick={closeFilter}>x</button> 
+        </div>
+      </form> :
+      <div className={styles.open}>Filter <button className={styles.button} onClick={openFilter}>&#709;</button>
+      </div>
+    }
     </div>
   )
 }

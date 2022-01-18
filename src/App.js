@@ -206,8 +206,7 @@ function App() {
       <Filter getValues={getValues} handleClear={handleClear} />
       {isLoading ? 'Loading...' :
       <div>
-        {isModal ? <Popup character={character} closeModal={closeModal} /> : ''}
-        <ItemList characters={characters} openModal={openModal}/>
+        <ItemList characters={characters} character={character} openModal={openModal} closeModal={closeModal} isModal={isModal}/>
       </div>
       }
     </div>

@@ -171,11 +171,13 @@ function App() {
     console.log(res)
     setFilter(res)
     console.log(filter)
+    e.target.reset()
     e.preventDefault()
   }
 
   const clearFilter = () => {
     setUrl("https://rickandmortyapi.com/api/character")
+    setFilter([])
   }
 
   useEffect(() => {
@@ -215,7 +217,7 @@ function App() {
         {isNext ? <button onClick={getNextPage}>Next Page</button> : <button onClick={getNextPage} disabled>Next Page</button>}
         <div>
         <form onSubmit={getValues}>
-          <input type="text" placeholder="name" id="name" name="name" />
+          <input type="text" placeholder="name" id="name" name="name"/>
           <select name="status">
           <option value="all">all</option>
             <option value="alive">alive</option>

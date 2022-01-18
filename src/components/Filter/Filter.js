@@ -21,8 +21,8 @@ const Filter = ({getValues, handleClear}) => {
           <option value="genderless">genderless</option>  
           <option value="unknown">unknown</option>
         </select>
-        <button type="submit">Seach</button>
-        <button type="button" onClick={handleClear}>Clear</button>
+        <button className={styles.button} type="submit">Seach</button>
+        <button className={styles.button} type="button" onClick={handleClear}>Clear</button>
       </form>
     </div>
   )

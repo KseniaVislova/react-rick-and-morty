@@ -19,6 +19,8 @@ function App() {
   const [isNext, setNext] = useState(false)
   const [filter, setFilter] = useState({name: '', status: 'all', species: '', type: '', gender: 'all'})
   const [isModal, setModal] = useState(false)
+  const [urlForModal, setUrlForModal] = useState('')
+  const [info, setInfo] = useState({})
 
   const cheakPage = (number) => {
     if (number <= pages && number > 0) return true;
@@ -142,9 +144,27 @@ function App() {
     setFilter({name: '', status: 'all', species: '', type: '', gender: 'all'})
   }
 
-  const openModal = () => {
-    console.log('modal')
+  const openModal = (e) => {
+    console.log(e.target)
+    console.log(e.target.value)
+    setUrlForModal(e.target.value)
     setModal(true)
+  }
+
+  const getInfo = async() => {
+    try {
+      let res = await fetch(urlForModal)
+      res = await res.json()
+      setInfo(res)
+      console.log(res)
+    } catch { 
+      console.log('Error')
+    } 
+  }
+
+  const closeModal = () => {
+    setModal(false)
+    setInfo({})
   }
 
   useEffect(() => {
@@ -163,6 +183,10 @@ function App() {
   useEffect(() => {
     getUrlFilter()
   }, [filter])
+
+  useEffect(() => {
+    getInfo()
+  }, [urlForModal])
 
   return (
     <div>
@@ -204,14 +228,22 @@ function App() {
         </div>
       {isLoading ? 'Loading...' :
       <div>
+        {isModal ? 
+        <div>
+          <button onClick={closeModal}>x</button>
+          <h3>Name: {info.name}</h3>
+          <img src={info.image} alt={info.name}/>
+          <p>Status: {info.status}</p>
+          <p>Species: {info.species}</p>
+          <p>Type: {info.type}</p>
+          </div> :
+        ''}
         <ul className={styles.list}>
           {characters === undefined ? 'Try again' : characters.map((item) => (
-            <li key={item.id} className={styles.item} onClick={openModal}>
+            <li key={item.id} className={styles.item} >
               <h3>Name: {item.name}</h3>
               <img src={item.image} alt={item.name}/>
-              <p>Status: {item.status}</p>
-              <p>Species: {item.species}</p>
-              <p>Type: {item.type}</p>
+              <button onClick={openModal} value={item.url}>Learn more</button>
             </li>  
             ))
           }

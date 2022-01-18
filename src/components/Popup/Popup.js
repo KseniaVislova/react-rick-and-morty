@@ -1,6 +1,4 @@
 const Popup = ({character, closeModal}) => {
-  console.log(character)
-
   return (
     <div>
       <button onClick={closeModal}>x</button>

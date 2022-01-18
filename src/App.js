@@ -192,7 +192,7 @@ function App() {
 
   useEffect(() => {
     getInfo()
-  }, [urlForModal])
+  }, [urlForModal, character])
 
   return (
     <div className={styles.container}>

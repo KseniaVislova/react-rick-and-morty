@@ -90,7 +90,25 @@ function App() {
     }
   }
 
-  const getValues = (e) => {
+  const getUrlFilter = () => {
+    console.log(filter)
+    let newUrl = "https://rickandmortyapi.com/api/character/?"
+    let i = 0;
+    filter.forEach(item => {
+      if (item.value !== '' && item.value !== 'all') {
+        if (i === 0) {
+          newUrl = newUrl + item.key + "=" + item.value
+        } else {
+          newUrl = newUrl + "&" + item.key + "=" + item.value
+        }
+      }
+      i += 1;
+    })
+    console.log(newUrl)
+    setUrl(newUrl)
+  }
+
+  const getValues = async(e) => {
     console.log(e.target[0])
     console.log(Object.keys(e.target))
     const res = []
@@ -110,10 +128,12 @@ function App() {
     console.log(res)
     setFilter(res)
     console.log(filter)
-    e.preventDefault();
+    e.preventDefault()
   }
 
-
+  const clearFilter = () => {
+    setUrl("https://rickandmortyapi.com/api/character")
+  }
 
   useEffect(() => {
     console.log("Сработал useEffect2")
@@ -125,6 +145,10 @@ function App() {
     getButtons()
     checkDisabled()
   }, [current])
+
+  useEffect(() => {
+    getUrlFilter()
+  }, [filter])
 
   return (
     <div>
@@ -161,19 +185,19 @@ function App() {
             <option value="unknown">unknown</option>
           </select>
           <button type="submit">Seach</button>
-          <button type="submit">Clear</button>
+          <button type="button" onClick={clearFilter}>Clear</button>
         </form>
         </div>
-      {isLoading ? 'Загрузка данных...' :
+      {isLoading ? 'Loading...' :
       <div>
         <ul className={styles.list}>
-          {characters.map((item) => (
+          {characters === undefined ? 'Try again' : characters.map((item) => (
             <li key={item.id} className={styles.item}>
-              <h3>{item.name}</h3>
+              <h3>Name: {item.name}</h3>
               <img src={item.image} alt={item.name}/>
-              <p>{item.status}</p>
-              <p>{item.species}</p>
-              <p>{item.type}</p>
+              <p>Status: {item.status}</p>
+              <p>Species: {item.species}</p>
+              <p>Type: {item.type}</p>
             </li>  
             ))
           }

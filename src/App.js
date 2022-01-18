@@ -20,7 +20,7 @@ function App() {
   const [filter, setFilter] = useState({name: '', status: 'all', species: '', type: '', gender: 'all'})
   const [isModal, setModal] = useState(false)
   const [urlForModal, setUrlForModal] = useState('')
-  const [info, setInfo] = useState({})
+  const [character, setCharacter] = useState({})
 
   const cheakPage = (number) => {
     if (number <= pages && number > 0) return true;
@@ -133,7 +133,13 @@ function App() {
     setUrl(newUrl)
   }
 
+  const closeModal = () => {
+    setModal(false)
+    setCharacter({})
+  }
+
   const getValues = async(e) => {
+    closeModal()
     const res = {name: e.target[0].value, status: e.target[1].value, species: e.target[2].value, type: e.target[3].value, gender: e.target[4].value}
     setFilter(res)
     e.preventDefault()
@@ -155,16 +161,11 @@ function App() {
     try {
       let res = await fetch(urlForModal)
       res = await res.json()
-      setInfo(res)
+      setCharacter(res)
       console.log(res)
     } catch { 
       console.log('Error')
     } 
-  }
-
-  const closeModal = () => {
-    setModal(false)
-    setInfo({})
   }
 
   useEffect(() => {
@@ -231,11 +232,11 @@ function App() {
         {isModal ? 
         <div>
           <button onClick={closeModal}>x</button>
-          <h3>Name: {info.name}</h3>
-          <img src={info.image} alt={info.name}/>
-          <p>Status: {info.status}</p>
-          <p>Species: {info.species}</p>
-          <p>Type: {info.type}</p>
+          <h3>Name: {character.name}</h3>
+          <img src={character.image} alt={character.name}/>
+          <p>Status: {character.status}</p>
+          <p>Species: {character.species}</p>
+          <p>Type: {character.type}</p>
           </div> :
         ''}
         <ul className={styles.list}>
